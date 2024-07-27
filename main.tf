@@ -42,13 +42,15 @@ resource "null_resource" "prompt" {
   count =  length(var.components)
   connection {
     type     = "ssh"
-    user     = "ec2-user"
-    password = "DevOps321"
+    user     = data.vault_generic_secret.ssh.data["username"]
+    password = data.vault_generic_secret.ssh.data["password"]
     host     = aws_instance.instance.*.private_ip[count.index]
   }
   provisioner "remote-exec" {
     inline = [
-      "sudo set-prompt -skip-apply ${var.components[count.index]}-${var.env}"
+      "sudo set-prompt -skip-apply ${var.components[count.index]}-${var.env}",
+      "sudo pip3.11 install ansible hvac",
+      "ansible-pull -i localhost, -U https://github.com/vikramdevopsb79/roboshop-ansible -e env=${var.env} -e component=${var.components[count.index]} -e vault_token=${var.vault_token} main.yml"
     ]
   }
 

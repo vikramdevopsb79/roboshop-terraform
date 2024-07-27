@@ -16,3 +16,4 @@ variable "components" {
 variable "env" {
   default = "dev"
 }
+variable "vault_token" {}
