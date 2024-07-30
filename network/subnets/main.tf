@@ -32,5 +32,16 @@ resource "aws_internet_gateway" "igw" {
 
   }
 
-
+}
+resource "aws_route" "igw_route" {
+  count = var.name == "public" ? length(var.cidr) : 0
+  route_table_id = aws_route_table.route-table.*.id[count.index]
+  destination_cidr_block = "0.0.0.0/0"
+  gateway_id = aws_internet_gateway.igw.*.id[0]
+}
+resource "aws_route" "ngw-route" {
+  count                  = var.name != "public" ? length(var.cidr) : 0
+  route_table_id         = aws_route_table.route-table.*.id[count.index]
+  destination_cidr_block = "0.0.0.0/0"
+  nat_gateway_id         = var.ngw_ids[count.index]
 }
