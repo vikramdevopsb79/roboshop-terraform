@@ -7,4 +7,5 @@ module "network" {
   availability_zones = each.value["availability_zones"]
 
   env = var.env
+  peering_vpcs = each.value["peering_vpcs"]
 }

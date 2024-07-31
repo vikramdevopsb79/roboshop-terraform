@@ -25,5 +25,12 @@ vpc = {
        ngw  = true
      }
    }
+    peering_vpcs = {
+      tools = {
+        id = ""
+        cidr = ""
+        route_table_id = ""
+      }
+    }
   }
 }
