@@ -47,6 +47,94 @@ db_servers = {
     }
   }
   mysql = {
+    instance_type = "t3.small"
+    ports = {
+      mysql = {
+        port = 3306
+        cidr = ["10.0.4.0/24", "10.0.5.0/24"]
+      }
+    }
   }
 
+  mongo = {
+    instance_type = "t3.small"
+    ports = {
+      mongo = {
+        port = 27017
+        cidr = ["10.0.4.0/24", "10.0.5.0/24"]
+      }
+    }
+  }
+
+  redis = {
+    instance_type = "t3.small"
+    ports = {
+      redis = {
+        port = 6379
+        cidr = ["10.0.4.0/24", "10.0.5.0/24"]
+      }
+    }
+  }
+
+}
+app_servers = {
+  catalogue = {
+    instance_type = "t3.small"
+    ports = {
+      catalogue-app = {
+        port = 8080
+        cidr = ["10.0.2.0/24", "10.0.3.0/24"]
+      }
+    }
+  }
+  user = {
+    instance_type = "t3.small"
+    ports = {
+      catalogue-app = {
+        port = 8080
+        cidr = ["10.0.2.0/24", "10.0.3.0/24"]
+      }
+    }
+
+  }
+  cart = {
+    instance_type = "t3.small"
+    ports = {
+      cart-app = {
+        port = 8080
+        cidr = ["10.0.2.0/24", "10.0.3.0/24"]
+      }
+    }
+  }
+
+  shipping = {
+    instance_type = "t3.small"
+    ports = {
+      shipping-app = {
+        port = 8080
+        cidr = ["10.0.2.0/24", "10.0.3.0/24"]
+      }
+    }
+  }
+
+  payment = {
+    instance_type = "t3.small"
+    ports = {
+      payment-app = {
+        port = 8080
+        cidr = ["10.0.2.0/24", "10.0.3.0/24"]
+      }
+    }
+  }
+}
+web_servers = {
+  frontend = {
+    instance_type = "t3.small"
+    ports = {
+      frontend-app = {
+        port = 80
+        cidr = ["10.0.0.0/24", "10.0.1.0/24"]
+      }
+    }
+  }
 }
