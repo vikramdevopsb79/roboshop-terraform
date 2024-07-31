@@ -63,6 +63,7 @@ resource "aws_route" "ngw-route" {
 #}
 # resource "aws_route" "peer-route" {
 #   for_each = var.vpc_peering_ids
+#  for_each = local.peer_with_routes
 #   route_table_id         = aws_route_table.route-table.*.id[count.index]
 #   destination_cidr_block = "0.0.0.0/0"
 #   nat_gateway_id         = var.ngw_ids[count.index]

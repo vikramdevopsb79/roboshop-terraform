@@ -9,3 +9,15 @@ module "network" {
   env = var.env
   peering_vpcs = each.value["peering_vpcs"]
 }
+
+module "db" {
+  source = "./modules/ec2"
+  for_each = var.db_servers
+  env = var.env
+  name = each.key
+  ports = each.value["ports"]
+  instance_type = each.value["instance_type"]
+
+  vpc_id = module.network.vpc_id
+  subnet_ids = module.network.subnets["db"].subnets
+}
