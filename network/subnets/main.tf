@@ -11,10 +11,20 @@ resource "aws_subnet" "subnet" {
 resource "aws_route_table" "route-table" {
   count             = length(var.cidr)
   vpc_id = var.vpc_id
-  cidr_block        = var.cidr[count.index]
-  availability_zone = var.availability_zones[count.index]
+  dynamic "route" {
+    for_each = var.vpc_peering_ids
+    content {
+      cidr_block = route.value
+      gateway_id = route.key
+    }
+  }
   tags = {
     Name = "${var.name}-${var.env}-${split("-", var.availability_zones[count.index])[2]}"
+  }
+  lifecycle {
+    ignore_changes = [
+      route
+    ]
   }
 }
 
@@ -46,3 +56,14 @@ resource "aws_route" "ngw-route" {
   destination_cidr_block = "0.0.0.0/0"
   nat_gateway_id         = var.ngw_ids[count.index]
 }
+
+# I need peering connection for every route so i need added every route table i can go for dynamic blocking
+# locals {
+# peer_with_routes = { for i in aws_route_table.route-table.*.id: i => var.vpc_peering_ids}
+#}
+# resource "aws_route" "peer-route" {
+#   for_each = var.vpc_peering_ids
+#   route_table_id         = aws_route_table.route-table.*.id[count.index]
+#   destination_cidr_block = "0.0.0.0/0"
+#   nat_gateway_id         = var.ngw_ids[count.index]
+# }

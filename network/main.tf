@@ -18,6 +18,7 @@ module "subnets" {
   env                = var.env
   vpc_id          = aws_vpc.vpc.id
   ngw_ids        = aws_nat_gateway.ngw.*.id
+  vpc_peering_ids = zipmap(local.peering_ids,local.peering_target_cidr )
 }
 resource "aws_eip" "ngw" {
   count  = length(var.availability_zones)
@@ -50,3 +51,4 @@ resource "aws_route" "on-peer-side" {
   destination_cidr_block = var.cidr
   vpc_peering_connection_id = aws_vpc_peering_connection.peers[each.key].id
 }
+# in our routes also peering connection need to add
