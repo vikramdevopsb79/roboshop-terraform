@@ -138,3 +138,9 @@ web_servers = {
     }
   }
 }
+load-balancers = {
+  frontend = {
+    internal = "public"
+    load_balancer_type = "application"
+  }
+}

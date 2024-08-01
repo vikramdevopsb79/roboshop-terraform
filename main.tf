@@ -59,3 +59,12 @@ module "web" {
   vpc_id = module.network["main"].vpc_id
   subnet_ids = module.network["main"].subnets["web"].subnets
 }
+module "loadbalancers" {
+  source = "./modules/loadbalancer"
+  for_each = var.loadbalancers
+  name = each.key
+  scope = each.value["scope"]
+  type = each.value["type"]
+  env = var.env
+
+}

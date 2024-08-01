@@ -6,3 +6,4 @@ variable "zone_id" {}
 variable "bastion_nodes" {}
 variable "web_servers" {}
 variable "app_servers" {}
+variable "loadbalancers" {}
